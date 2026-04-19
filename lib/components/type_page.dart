@@ -117,21 +117,20 @@ class _MyTypePageState extends State<MyTypePage> {
                     });
                   },
                   itemBuilder: (BuildContext context, int index) {
-                    var tagName = context.appSettingsAction.typeAheadItems[index];
+                    final itemData = context.appSettingsAction.typeAheadItems[index];
 
                     return Padding(
-                      key: ValueKey('tag_income_padding_$tagName'),
+                      key: itemData.key,
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Dismissible(
-                        key: ValueKey('income_${tagName}_$index'),
+                        key: ValueKey('dismiss_${itemData.key}'),
                         direction: DismissDirection.endToStart,
                         onDismissed: (_) {
-                          setState(() {
-                            context.appSettingsAction.removeTypeAheadItem(tagName);
-                          });
+                          context.appSettingsAction.removeTypeAheadItem(index);
+                          setState(() {});
                         },
                         child: MyTagItemPage(
-                            item: context.appSettingsAction.typeAheadItems[index],
+                            item: context.appSettingsAction.typeAheadItems[index].name,
                             index: index
                         ),
                       ),

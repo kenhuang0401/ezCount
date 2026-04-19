@@ -1,4 +1,5 @@
 /// 新增單筆收入／支出：名稱、金額、標籤，以 BottomSheet 呈現，送出後寫入 DB 並關閉
+import 'package:exp02/providers/settings.dart';
 import 'package:exp02/utils/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,8 +24,8 @@ class _MyAddItemPageState extends State<MyAddItemPage> {
   final TextEditingController name_controller = TextEditingController();
   final TextEditingController amount_controller = TextEditingController();
   late String tags = (widget.type == "income")
-    ? context.appSettingsAction.incomeTags[0]
-    : context.appSettingsAction.expenseTags[0];
+    ? context.appSettingsAction.incomeTags[0].name
+    : context.appSettingsAction.expenseTags[0].name;
 
   /// 標籤下拉選單（依 isIncome 顯示收入或支出標籤）
   Widget selectMenu(String mode) {
@@ -36,7 +37,7 @@ class _MyAddItemPageState extends State<MyAddItemPage> {
           return context.appSettingsAction.incomeTags.map((x) {
             return PopupMenuItem(
               value: x,
-              child: Text(x),
+              child: Text(x.name),
             );
           }).toList();
         }
@@ -44,7 +45,7 @@ class _MyAddItemPageState extends State<MyAddItemPage> {
           return context.appSettingsAction.expenseTags.map((x) {
             return PopupMenuItem(
               value: x,
-              child: Text(x),
+              child: Text(x.name),
             );
           }).toList();
         }
@@ -52,7 +53,7 @@ class _MyAddItemPageState extends State<MyAddItemPage> {
           return context.appSettingsAction.typeAheadItems.map((x) {
             return PopupMenuItem(
               value: x,
-              child: Text(x),
+              child: Text(x.name),
             );
           }).toList();
         }
@@ -68,12 +69,14 @@ class _MyAddItemPageState extends State<MyAddItemPage> {
       onSelected: (value) {
         if(mode == "typeAhead") {
           setState(() {
-            name_controller.text = value.toString();
+            final tmp = value as TypeAheadItem;
+            name_controller.text = (tmp.name).toString();
           });
         }
         else {
           setState(() {
-            tags = value.toString();
+            final tmp = value as TagsItem;
+            tags = (tmp.name).toString();
           });
         }
       },

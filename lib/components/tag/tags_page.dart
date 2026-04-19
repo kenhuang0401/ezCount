@@ -62,7 +62,7 @@ class _MyTagManagePageState extends State<MyTagManagePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(" 收入", style: TextStyle(color: context.myColor.text, fontSize: 16),),
+                          Text(" 支出", style: TextStyle(color: context.myColor.text, fontSize: 16),),
                           GestureDetector(
                             onTap: () async {
                               await showDialog(
@@ -119,21 +119,21 @@ class _MyTagManagePageState extends State<MyTagManagePage> {
                           });
                         },
                         itemBuilder: (BuildContext context, int index) {
-                          var tagName = context.appSettingsAction.expenseTags[index];
+                          var tagItem = context.appSettingsAction.expenseTags[index];
 
                           return Padding(
-                            key: ValueKey('tag_expense_padding_$tagName'),
+                            key: tagItem.key,
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Dismissible(
-                              key: ValueKey('expense_${tagName}_$index'),
+                              key: ValueKey('expense_${tagItem.key}'),
                               direction: DismissDirection.endToStart,
                               onDismissed: (_) {
                                 setState(() {
-                                  context.appSettingsAction.removeTag("expense", tagName);
+                                  context.appSettingsAction.removeTag("expense", index);
                                 });
                               },
                               child: MyTagItemPage(
-                                item: context.appSettingsAction.expenseTags[index],
+                                item: tagItem.name,
                                 index: index,
                               ),
                             ),
@@ -151,7 +151,7 @@ class _MyTagManagePageState extends State<MyTagManagePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(" 支出", style: TextStyle(color: context.myColor.text, fontSize: 16),),
+                          Text(" 收入", style: TextStyle(color: context.myColor.text, fontSize: 16),),
                           GestureDetector(
                             onTap: () async {
                               await showDialog(
@@ -208,21 +208,21 @@ class _MyTagManagePageState extends State<MyTagManagePage> {
                           });
                         },
                         itemBuilder: (BuildContext context, int index) {
-                          var tagName = context.appSettingsAction.incomeTags[index];
+                          var tagItem = context.appSettingsAction.incomeTags[index];
 
                           return Padding(
-                            key: ValueKey('tag_income_padding_$tagName'),
+                            key: tagItem.key,
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Dismissible(
-                              key: ValueKey('income_${tagName}_$index'),
+                              key: ValueKey('income_${tagItem.key}'),
                               direction: DismissDirection.endToStart,
                               onDismissed: (_) {
                                 setState(() {
-                                  context.appSettingsAction.removeTag("income", tagName);
+                                  context.appSettingsAction.removeTag("income", index);
                                 });
                               },
                               child: MyTagItemPage(
-                                  item: context.appSettingsAction.incomeTags[index],
+                                  item: tagItem.name,
                                   index: index
                               ),
                             ),

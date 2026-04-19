@@ -139,7 +139,7 @@ class _MyIncomePageState extends State<MyIncomePage> {
                         // key: ValueKey("list_$isWeekShow"),
                         itemCount: _tags.length,
                         itemBuilder: (context, index) {
-                          String tagName = _tags[index];
+                          String tagName = _tags[index].name;
 
                           return AnimationConfiguration.staggeredList(
                             position: index,
